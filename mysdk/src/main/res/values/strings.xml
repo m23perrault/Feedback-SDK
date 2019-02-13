@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">MySDK</string>
+
+    <string name="internetconnection">       No Internet Connection, Please connect the valid internet Connection          </string>
+
+    <string name="feedback">Feedback</string>
+    <string name="submit">Submit</string>
+    <string name="title_hint">Subject/Title</string>
+    <string name="body_hint">Message/Body</string>
+    <string name="feedback_title">Please enter feedback title/subject</string>
+    <string name="feedback_body">Please enter feedback body/message</string>
+    <string name="feed_back_rply">Feedback SDK</string>
+
+    <!--Rate Dialog-->
+    <string name="please_rate_me">Rate Me</string>
+    <string name="hi_if_you">Hi! If you like this App, can you please take a few minutes to rate it? It help so much when you do , thanks!</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="maybe_later">Maybe Later</string>
+    <string name="no_thanks">No, Thanks</string>
+    <string name="do_you_like">Do you like iPhemeris?</string>
+</resources>

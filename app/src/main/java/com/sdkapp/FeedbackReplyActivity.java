@@ -47,7 +47,8 @@ public class FeedbackReplyActivity extends BaseActivity {
         * The SDKInstance is Mendatory for both
         * App Rater & Feedback
         * */
-        new SDKInstance(mActivity, BaseActivity.SDK_APP_ID, BaseActivity.SDK_APP_SECRET_KEY);
+
+        //new SDKInstance(mActivity, BaseActivity.SDK_APP_ID, BaseActivity.SDK_APP_SECRET_KEY);
 
         /*Send Rating
         * Normal or Default

@@ -1,16 +1,23 @@
 package com.feedbacksdk;
 
 import android.content.Context;
-import android.nfc.Tag;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.feedbacksdk.utils.SDKPreference;
 import com.feedbacksdk.utils.Utilities;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**********************************
  * Created by android-da on 12/27/18.
@@ -63,6 +70,7 @@ public class SDKInstance {
     private String SERVER_URL = "http://www.apptenium.com/index.php?r=api/v1/";
     private String FEEDBACK_API = SERVER_URL + "feedback/create";
     private String REPLY_API = SERVER_URL + "reply/create" + "&per-page=10" + "&page=";//&page=2&per-page=10
+    private String APP_DETAILS_API = SERVER_URL + "feedback/install";
     /*
     * This is Request Class of Volley Library
     * */
@@ -80,7 +88,6 @@ public class SDKInstance {
     /*
     * Constructor with Pass the @params
     * APP_Id & Secret_Key
-    *
     * */
     public SDKInstance(Context mContext, String appID, String secretKey) {
         strAppID = appID;
@@ -89,6 +96,11 @@ public class SDKInstance {
         * Calculate the App Open Count
         * */
         calculaterAppOpenCount(mContext);
+
+        /*
+        * Submit App Details
+        * */
+        mAppDetail(mContext);
     }
 
     /*
@@ -98,12 +110,15 @@ public class SDKInstance {
     * then this method can get the Intance class
     * */
     public static SDKInstance getInstance() {
+        //When Implement
         //if there is no instance available... create new one
         if (mSDKInstance == null) {
             mSDKInstance = new SDKInstance();
         }
         return mSDKInstance;
     }
+
+
 
     /*
     * Calculate the App Open Count
@@ -115,7 +130,7 @@ public class SDKInstance {
         if (SDKPreference.readString(mContext, SDKPreference.CURRENT_SAVED_TIME, "").equals("") && SDKPreference.readString(mContext, SDKPreference.CURRENT_SAVED_TIME, "").length() == 0)
             SDKPreference.writeString(mContext, SDKPreference.CURRENT_SAVED_TIME, Utilities.getCurrentTime());
 
-        Log.e(TAG,"==App Open Count=="+mCount);
+        Log.e(TAG, "==App Open Count==" + mCount);
     }
 
     /*
@@ -195,4 +210,84 @@ public class SDKInstance {
     }
 
 
+
+    /*
+*
+* Execute App Details Api
+*
+* */
+    public void mAppDetail(final Context mContext) {
+        /*
+        * Volley Libray StringRequest
+        * */
+        StringRequest request = new StringRequest(Request.Method.POST, APP_DETAILS_API, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    /*Feedback Interface Reponse Method*/
+                    Log.e(TAG, "**Response**" + response);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                /*Feedback Interface Error Method*/
+                Log.e(TAG, "**Error**" + error.toString());
+            }
+        }) {
+            /*
+            * Header of the Webservices
+            * */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                return headers;
+            }
+
+            /*
+            * @Parameters of the Api
+            * */
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<>();
+                params.put("app_id", strAppID);
+                params.put("secret_key", strSecretKey);
+                params.put("device_token", getDeviceUniqueID(mContext));
+                params.put("device_type", "android");//device_type
+                return params;
+            }
+        };
+
+        /*
+        *Add the Request to volley Queue
+        * */
+        addToRequestQueue(mContext, request);
+    }
+
+
+
+    /*
+  * Getting the Android Device Unique ID
+  *
+  * */
+    public String getDeviceUniqueID(Context mContext) {
+        String strDeviceID = Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
+        return strDeviceID;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

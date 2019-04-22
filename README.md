@@ -22,7 +22,7 @@ Feedback SDK is an in-app feedback  tool for mobile apps.
 
 Downloads
 
-Tag : 1.0
+Tag : 1.1
 
 ```groovy
 To get a Git project into your build:

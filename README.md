@@ -3,7 +3,7 @@ Feedback &amp; Rater SDK Android
 [![](https://jitpack.io/v/m23perrault/Feedback-SDK.svg)](https://jitpack.io/#m23perrault/Feedback-SDK)
 
 
-
+<p><a title="#1 Conservative News Aggregator" href="https://www.conservativenewsdaily.net/">#1 Conservative News Aggregator</a></p>
 
 
 ## Screenshots
